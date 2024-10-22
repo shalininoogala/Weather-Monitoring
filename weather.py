@@ -27,7 +27,6 @@ INTERVAL = int(os.getenv("INTERVAL", 300))  # Default 5 minutes in seconds
 TEMP_THRESHOLD = float(os.getenv("TEMP_THRESHOLD", 35))  # Default threshold: 35°C
 
 def init_db():
-    """Initialize the SQLite database and create the daily_summary table."""
     with sqlite3.connect('weather_data.db') as conn:
         cursor = conn.cursor()
         cursor.execute('''
@@ -42,7 +41,6 @@ def init_db():
         conn.commit()
 
 def get_weather_data(city):
-    """Fetch weather data for a specified city from the OpenWeatherMap API."""
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}"
     try:
         response = requests.get(url)
@@ -53,11 +51,9 @@ def get_weather_data(city):
         return None
 
 def kelvin_to_celsius(temp_kelvin):
-    """Convert temperature from Kelvin to Celsius."""
     return temp_kelvin - 273.15
 
 def parse_weather_data(data):
-    """Parse relevant weather data from the API response."""
     if data:
         main_condition = data['weather'][0]['main']
         temp = kelvin_to_celsius(data['main']['temp'])
@@ -108,7 +104,6 @@ def send_alert(message):
         logging.warning("Email alerts not configured. Please set ALERT_EMAIL and EMAIL_PASSWORD.")
 
 def store_summary(date, avg_temp, max_temp, min_temp, dominant_condition):
-    """Store daily summaries in the SQLite database."""
     with sqlite3.connect('weather_data.db') as conn:
         cursor = conn.cursor()
         cursor.execute('''
@@ -130,7 +125,6 @@ def plot_weather_trend(dates, temps):
     plt.show()
 
 def run_weather_monitoring():
-    """Main logic for continuous weather monitoring."""
     init_db()  # Initialize the database
     weather_data = []
 
@@ -155,7 +149,7 @@ def run_weather_monitoring():
             # Clear data for the next day's summary
             weather_data.clear()
 
-        time.sleep(INTERVAL)
+        time.sleep(0.5)
 
 # Run the system
 if __name__ == "__main__":
