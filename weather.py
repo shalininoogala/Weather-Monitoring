@@ -9,9 +9,9 @@ from dotenv import load_dotenv
 # Load API key and configurations
 load_dotenv()
 
-API_KEY = "API KEY"  
+API_KEY = "API KEY" 
 LOCATIONS = ["Delhi", "Mumbai", "Chennai", "Bangalore", "Kolkata", "Hyderabad"]
-INTERVAL = 300  # 5 minutes in seconds
+INTERVAL = 300
 
 # Initialize SQLite database
 def init_db():
