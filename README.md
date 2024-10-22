@@ -32,10 +32,3 @@ This project is a real-time data processing system designed to monitor weather c
 - **Python 3.x** installed.
 - **OpenWeatherMap API Key** (Sign up for a free API key at [OpenWeatherMap](https://openweathermap.org)).
 
-### **Installation Instructions**
-
-1. **Clone the repository**:
-
-   bash
-   git clone https://github.com/your-username/weather-monitoring-system.git
-   cd weather-monitoring-system
