@@ -53,7 +53,7 @@ def parse_weather_data(data):
         'timestamp': timestamp
     }
 
-# Calculate daily weather rollups and aggregates
+# Calculate daily weather 
 def calculate_daily_summary(weather_data):
     df = pd.DataFrame(weather_data)
     avg_temp = df['temp'].mean()
@@ -78,7 +78,7 @@ def store_summary(date, avg_temp, max_temp, min_temp, dominant_condition):
     conn.commit()
     conn.close()
 
-# Plot weather trend (visualization)
+# Plot weather trend 
 def plot_weather_trend(dates, temps):
     plt.plot(dates, temps)
     plt.xlabel('Date')
@@ -88,24 +88,24 @@ def plot_weather_trend(dates, temps):
 
 # Main logic for continuous weather monitoring
 def run_weather_monitoring():
-    init_db()  # Initialize database
+    init_db()  
     weather_data = []
 
     while True:
         for city in LOCATIONS:
             data = get_weather_data(city)
-            if 'weather' not in data:  # Check if weather data was returned
+            if 'weather' not in data:  
                 print(f"Error fetching data for {city}: {data.get('message', 'Unknown error')}")
                 continue
             weather = parse_weather_data(data)
             weather_data.append(weather)
             check_alerts(weather['temp'])
 
-        # Simulate daily rollup (you could trigger this daily in production)
+       
         avg_temp, max_temp, min_temp, dominant_condition = calculate_daily_summary(weather_data)
         store_summary(time.strftime('%Y-%m-%d'), avg_temp, max_temp, min_temp, dominant_condition)
 
-        # Visualization (optional)
+       
         dates = [time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(item['timestamp'])) for item in weather_data]
         temps = [item['temp'] for item in weather_data]
         plot_weather_trend(dates, temps)
